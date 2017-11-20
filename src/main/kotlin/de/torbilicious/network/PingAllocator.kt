@@ -17,7 +17,7 @@ class PingAllocator {
             deferred.map { it.await() }
         }
 
-        return PingReport(responses.map { PingResult(it.host, it.duration) })
+        return PingReport(responses.map { PingResult(it.host, it.duration, System.currentTimeMillis()) })
     }
 
     fun createRequests(host: String, amount: Int): Iterable<IcmpPingRequest> {
@@ -40,7 +40,7 @@ data class PingReport(private val results: List<PingResult>) {
     override fun toString() = results.joinToString("\n")
 }
 
-data class PingResult(val host: Host, val ping: Ping)
+data class PingResult(val host: Host, val ping: Ping, val timestamp: Long)
 
 typealias Host = String
 typealias Ping = Long
