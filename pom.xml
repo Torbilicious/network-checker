@@ -47,9 +47,9 @@
             <systemPath>${project.basedir}/src/main/resources/libs/jna-3.5.1.jar</systemPath>
         </dependency>
         <dependency>
-            <groupId>stuff</groupId>
+            <groupId>com.sun</groupId>
             <artifactId>platform</artifactId>
-            <version>4694</version>
+            <version>3.5.1</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/src/main/resources/libs/platform-3.5.1.jar</systemPath>
         </dependency>
