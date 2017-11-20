@@ -1,10 +1,13 @@
 package de.torbilicious.network
 
+import com.google.gson.Gson
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.runBlocking
 import org.icmp4j.IcmpPingRequest
 import org.icmp4j.IcmpPingUtil
 
+
+val gson = Gson()
 
 fun main(args: Array<String>) {
     request()
@@ -20,9 +23,8 @@ fun request() {
     val report = execute(requests)
 
     println()
-    println("Report: $report")
-
-    println("Average time: ${report.average()}ms")
+    println("Report json:\n")
+    println(gson.toJson(report))
 }
 
 fun execute(requests: List<IcmpPingRequest>): PingReport {
@@ -53,7 +55,7 @@ fun createRequests(host: String, amount: Int): Iterable<IcmpPingRequest> {
 }
 
 data class PingReport(private val results: List<PingResult>) {
-    fun average(): Double = results.map { it.ping }.average()
+    val average: Double = results.map { it.ping }.average()
 
     override fun toString() = results.joinToString("\n")
 }
