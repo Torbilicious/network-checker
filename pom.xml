@@ -55,11 +55,11 @@
             <systemPath>${project.basedir}/src/main/resources/libs/platform-3.5.1.jar</systemPath>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>khttp</groupId>-->
-            <!--<artifactId>khttp</artifactId>-->
-            <!--<version>0.1.0</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>elasticsearch-rest-high-level-client</artifactId>
+            <version>6.0.0</version>
+        </dependency>
 
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -163,5 +163,11 @@
         </plugins>
     </build>
 
+    <repositories>
+        <repository>
+            <id>jcenter</id>
+            <url>https://jcenter.bintray.com/</url>
+        </repository>
+    </repositories>
 
 </project>
