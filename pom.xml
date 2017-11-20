@@ -15,14 +15,43 @@
         <kotlin.compiler.jvmTarget>${java.version}</kotlin.compiler.jvmTarget>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <main.class>de.torbilicious.steam.AppKt</main.class>
+        <main.class>de.torbilicious.network.MainKt</main.class>
     </properties>
 
     <dependencies>
+        <!-- kotlin related -->
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib</artifactId>
             <version>${kotlin.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlinx</groupId>
+            <artifactId>kotlinx-coroutines-core</artifactId>
+            <version>0.19.2</version>
+        </dependency>
+
+        <!-- icmp4j related -->
+        <dependency>
+            <groupId>org.icmp4j</groupId>
+            <artifactId>icmp4j</artifactId>
+            <version>19</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/libs/icmp4j-all.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.sun</groupId>
+            <artifactId>jna</artifactId>
+            <version>3.5.1</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/libs/jna-3.5.1.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>stuff</groupId>
+            <artifactId>platform</artifactId>
+            <version>4694</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/libs/platform-3.5.1.jar</systemPath>
         </dependency>
 
         <!--<dependency>-->
