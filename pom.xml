@@ -32,6 +32,8 @@
         </dependency>
 
         <!-- icmp4j related -->
+        <!-- use the maven repository once it exists -->
+        <!-- https://sourceforge.net/p/icmp4j/discussion/general/thread/6a264c12/ -->
         <dependency>
             <groupId>org.icmp4j</groupId>
             <artifactId>icmp4j</artifactId>
