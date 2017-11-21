@@ -17,7 +17,9 @@ class ElkAdapter {
     fun upload(report: PingReport) {
         val client = createClient()
 
-        createIndex(client)
+        if (!indexExists(client.lowLevelClient, index)) {
+            createIndex(client.lowLevelClient)
+        }
 
         val request = IndexRequest(index, "data")
 
@@ -28,13 +30,21 @@ class ElkAdapter {
         client.close()
     }
 
+    private fun indexExists(client: RestClient, index: String): Boolean {
+        val response = client.performRequest("GET", index, mapOf(), StringEntity(""))
+
+        return response.statusLine.statusCode == 200
+    }
+
     private fun createClient(): RestHighLevelClient {
+        println("Creating index")
+
         return RestHighLevelClient(
                 RestClient.builder(
                         HttpHost("localhost", 9200, "http")))
     }
 
-    private fun createIndex(client: RestHighLevelClient) {
+    private fun createIndex(client: RestClient) {
         val indexSettings = "{\n" +
                 "  \"mappings\": {\n" +
                 "    \"data\": {\n" +
@@ -51,7 +61,7 @@ class ElkAdapter {
             entity = StringEntity(indexSettings, ContentType.APPLICATION_JSON)
         }
 
-        client.lowLevelClient.performRequest("PUT", index, mapOf(), entity)
+        client.performRequest("PUT", index, mapOf(), entity)
 
     }
 }

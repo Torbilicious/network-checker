@@ -40,7 +40,7 @@ data class PingReport(private val results: List<PingResult>) {
     override fun toString() = results.joinToString("\n")
 }
 
-data class PingResult(val host: Host, val ping: Ping, val timestamp: Long)
+data class PingResult(val host: Host?, val ping: Ping, val timestamp: Long)
 
 typealias Host = String
 typealias Ping = Long
