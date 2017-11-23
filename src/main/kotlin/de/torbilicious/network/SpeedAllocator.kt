@@ -40,7 +40,7 @@ class SpeedAllocator {
 data class Speed(private val speed: BigDecimal) {
     private val million = BigDecimal(1000000)
 
-    val downloadSpeed = "${speed / million}MB/s"
+    private val downloadSpeed = "${speed / million}MB/s"
 
     override fun toString() = downloadSpeed
 }
