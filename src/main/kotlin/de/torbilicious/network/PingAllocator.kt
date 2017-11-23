@@ -6,7 +6,7 @@ import org.icmp4j.IcmpPingRequest
 import org.icmp4j.IcmpPingUtil
 
 class PingAllocator {
-    fun execute(requests: List<IcmpPingRequest>): PingReport {
+    fun execute(requests: List<IcmpPingRequest>): List<PingResult> {
         val deferred = requests.map {
             async {
                 IcmpPingUtil.executePingRequest(it)
@@ -17,7 +17,7 @@ class PingAllocator {
             deferred.map { it.await() }
         }
 
-        return PingReport(responses.map { PingResult(it.host, it.duration, System.currentTimeMillis()) })
+        return responses.map { PingResult(it.host, it.duration) }
     }
 
     fun createRequests(host: String, amount: Int): Iterable<IcmpPingRequest> {
@@ -34,13 +34,16 @@ class PingAllocator {
     }
 }
 
-data class PingReport(private val results: List<PingResult>) {
-    val average: Double = results.map { it.ping }.average()
+data class Report(private val pingResults: List<PingResult>,
+                  private val speedResult: SpeedResult,
+                  private val timestamp: Long = System.currentTimeMillis()) {
+    val average: Double = pingResults.map { it.ping }.average()
 
-    override fun toString() = results.joinToString("\n")
+    override fun toString() = pingResults.joinToString("\n")
 }
 
-data class PingResult(val host: Host?, val ping: Ping, val timestamp: Long)
+data class PingResult(val host: Host?, val ping: Ping)
+data class SpeedResult(val speed: Speed)
 
 typealias Host = String
 typealias Ping = Long

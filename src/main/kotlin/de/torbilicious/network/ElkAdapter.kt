@@ -5,6 +5,7 @@ import org.apache.http.HttpHost
 import org.apache.http.entity.ContentType
 import org.apache.http.entity.StringEntity
 import org.elasticsearch.action.index.IndexRequest
+import org.elasticsearch.client.ResponseException
 import org.elasticsearch.client.RestClient
 import org.elasticsearch.client.RestHighLevelClient
 import org.elasticsearch.common.xcontent.XContentType
@@ -12,9 +13,9 @@ import org.elasticsearch.common.xcontent.XContentType
 
 class ElkAdapter {
     private val gson = Gson()
-    private val index = "ping"
+    private val index = "internet"
 
-    fun upload(report: PingReport) {
+    fun upload(report: Report) {
         val client = createClient()
 
         if (!indexExists(client.lowLevelClient, index)) {
@@ -31,9 +32,11 @@ class ElkAdapter {
     }
 
     private fun indexExists(client: RestClient, index: String): Boolean {
-        val response = client.performRequest("GET", index, mapOf(), StringEntity(""))
-
-        return response.statusLine.statusCode == 200
+        return try {
+            client.performRequest("GET", index, mapOf(), StringEntity("")).statusLine.statusCode == 200
+        } catch (e: ResponseException) {
+            false
+        }
     }
 
     private fun createClient(): RestHighLevelClient {
@@ -49,7 +52,7 @@ class ElkAdapter {
                 "  \"mappings\": {\n" +
                 "    \"data\": {\n" +
                 "      \"properties\": {\n" +
-                "        \"results.timestamp\": {\n" +
+                "        \"timestamp\": {\n" +
                 "          \"type\": \"date\"\n" +
                 "        }\n" +
                 "      }\n" +
